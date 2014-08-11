@@ -93,9 +93,11 @@ module Tutorial where
   commentBox :: ComponentClass CommentBoxProps CommentPropsState
   commentBox = createClass spec
     { displayName = "CommentBox"
+    , loadCommentsFromServer = \this -> loadCommentsFromServer this
+    , handleCommentSubmit = \this -> handleCommentSubmit this
     , getInitialState = \_ -> pure {comments: []}
     , componentDidMount = \this -> do
-      loadCommentsFromServer this
+      this.loadCommentsFromServer
       setInterval (loadCommentsFromServer this) this.props.pollInterval
     , shouldComponentUpdate = mkFn3 \this _ state -> do
       pure $ state.comments /= this.state.comments
@@ -103,7 +105,7 @@ module Tutorial where
       D.div {className: "commentBox"}
         [ D.h1 {} [D.rawText "Comments"]
         , commentList {comments: this.state.comments} []
-        , commentForm {onCommentSubmit: handleCommentSubmit $ unsafeCorece this} []
+        , commentForm {onCommentSubmit: handleCommentSubmit this} []
         ]
     }
 
@@ -128,7 +130,7 @@ module Tutorial where
     }
 
   loadCommentsFromServer :: forall eff fields
-                         .  ReactThis fields CommentBoxProps CommentPropsState
+                         .  ReactThis fields CommentBoxProps CommentPropsState eff
                          -> Eff (oboe :: OboeEff, trace :: Trace | eff) Oboe
   loadCommentsFromServer this = do
     o <- oboeGet this.props.url
@@ -136,7 +138,7 @@ module Tutorial where
     fail o (\obj  -> trace obj.body)
 
   handleCommentSubmit :: forall eff fields
-                      .  ReactThis fields CommentBoxProps CommentPropsState
+                      .  ReactThis fields CommentBoxProps CommentPropsState eff
                       -> Comment
                       -> Eff (oboe :: OboeEff, trace :: Trace | eff) Oboe
   handleCommentSubmit this comment = do
@@ -149,7 +151,7 @@ module Tutorial where
     fail o (\obj  -> trace obj.body)
 
   handleSubmit :: forall eff fields
-               .  ReactThis fields CommentFormProps CommentFormState
+               .  ReactThis fields CommentFormProps CommentFormState eff
                -> ReactFormEvent
                -> Eff (event :: Event, oboe :: OboeEff, trace :: Trace | eff) Boolean
   handleSubmit this event = do

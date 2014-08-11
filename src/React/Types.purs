@@ -54,19 +54,19 @@ module React.Types where
     | s
     }
 
-  type This fields =
-    { isMounted :: forall eff. Eff (react :: React | eff) Boolean
+  type This fields eff =
+    { isMounted :: Eff (react :: React | eff) Boolean
     | fields
     }
 
-  type ReactThis fields props state = This
+  type ReactThis fields props state eff = This
     ( state :: state
     , props :: props
     , refs :: forall r. { | r}
     , setState :: state -> Unit
     , replaceState :: state -> Unit
     | fields
-    )
+    ) eff
 
   type Render fields props state eff
     =  This ( props :: props
@@ -76,7 +76,7 @@ module React.Types where
             , replaceState :: BlackList
             , setState :: BlackList
             | fields
-            )
+            ) eff
     -> Eff (react :: React, dom :: DOM | eff) Component
 
   type GetInitialState fields state eff
@@ -87,7 +87,7 @@ module React.Types where
             , replaceState :: BlackList
             , setState :: BlackList
             | fields
-            )
+            ) eff
     -> Eff (react :: React, dom :: DOM | eff) state
 
   type ComponentDidMount fields props state eff
@@ -96,10 +96,11 @@ module React.Types where
                  )
                  props
                  state
+                 eff
     -> Eff (react :: React, dom :: DOM | eff) Unit
 
   type ComponentWillMount fields props state eff
-    =  ReactThis (getDOMNode :: BlackList | fields) props state
+    =  ReactThis (getDOMNode :: BlackList | fields) props state eff
     -> Eff (react :: React, dom :: DOM | eff) Unit
 
   type ComponentWillUnmount fields props state eff
@@ -108,21 +109,22 @@ module React.Types where
                  )
                  props
                  state
+                 eff
     -> Eff (react :: React, dom :: DOM | eff) Unit
 
   type ComponentWillReceiveProps fields props state eff =
-    Fn2 (ReactThis fields props state)
+    Fn2 (ReactThis fields props state eff)
         props
         (Eff (react :: React, dom :: DOM | eff) Boolean)
 
   type ShouldComponentUpdate fields props state eff =
-    Fn3 (ReactThis fields props state)
+    Fn3 (ReactThis fields props state eff)
         props
         state
         (Eff (react :: React, dom :: DOM | eff) Boolean)
 
   type ComponentDidUpdate fields props state eff =
-    Fn3 (ReactThis fields props state)
+    Fn3 (ReactThis fields props state eff)
         props
         state
         (Eff (react :: React, dom :: DOM | eff) Boolean)
@@ -135,7 +137,7 @@ module React.Types where
               , replaceState :: BlackList
               , setState :: BlackList
               | fields
-              )
+              ) eff
         )
         props
         state

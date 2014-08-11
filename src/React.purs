@@ -65,8 +65,8 @@ module React where
     \    }\
     \  }\
     \}" :: forall eff fields fields' event a
-       .  This fields
-       -> (This fields' -> ReactSyntheticEvent event -> Eff (react :: React, dom :: DOM | eff) a)
+       .  This fields eff
+       -> (This fields' eff -> ReactSyntheticEvent event -> Eff (react :: React, dom :: DOM | eff) a)
        -> ReactSyntheticEvent event
        -> Unit
 
