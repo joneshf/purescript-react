@@ -25,7 +25,8 @@ var paths = {
                 'example/tutorial/tutorial.purs',
                 'bower_components/purescript-*/src/**/*.purs',
                 'example/tutorial/bower_components/purescript-*/src/**/*.purs'
-            ]
+            ],
+            dest: '.'
         }
     }
 };
