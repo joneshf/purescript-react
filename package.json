@@ -1,6 +1,6 @@
 {
   "name": "purescript-react",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "Purescript bindings for React.js ",
   "repository": {
     "type": "git",
