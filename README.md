@@ -1,43 +1,9 @@
-purescript-react
-================
+# purescript-react-simple
 
-React Bindings for PureScript.
+A simplified wrapper around react.
 
-**WARNING:** This is alpha quaility software and you need to use [nightly build
-of React][nightly].
+The goal of this fork is to make the use of React from PureScript much easier.
 
-```haskell
-module Main where
+For the most part you can do a simple conversion from js or jsx code to ps code.
 
-import React
-import React.DOM
-
-hello = mkUI spec do
-  props <- getProps
-  return $ h1 [
-      className "Hello"
-    ] [
-      text "Hello, ",
-      text props.name
-    ]
-
-incrementCounter = do
-  val <- readState
-  writeState (val + 1)
-
-counter = mkUI spec { getInitialState = return 0 } do
-  val <- readState
-  return $ p [
-      className "Counter",
-      onClick incrementCounter
-    ] [
-      text (show val),
-      text " Click me to increment!"
-    ]
-
-main = do
-  let component = div {} [hello {name: "World"}, counter {}]
-  renderToBody component
-```
-
-[nightly]: http://react.zpao.com/builds/master/latest/react.js
+See the examples for a brief look at what things look like.
