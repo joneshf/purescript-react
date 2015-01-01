@@ -1,4 +1,11 @@
-module React where
+module React
+  ( coerceThis
+  , createClass
+  , eventHandler
+  , spec
+  , renderComponent
+  , renderComponentById
+  ) where
 
   import Control.Monad.Eff (Eff())
 
