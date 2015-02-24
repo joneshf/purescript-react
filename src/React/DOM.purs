@@ -4,19 +4,19 @@ module React.DOM where
 
   import React.Types (ComponentClass(), Component())
 
-  foreign import dom
-    "function dom(el) {\
-    \  return function(props) {\
-    \    return function(children) {\
-    \      return React.DOM[el].apply(this, [props].concat(children));\
-    \    }\
-    \  }\
-    \}" :: forall props. String -> props -> [Component] -> Component
+  foreign import dom """
+    function dom(el) {
+      return function(props) {
+        return function(children) {
+          return React.DOM[el].apply(this, [props].concat(children));
+        }
+      }
+    }""" :: forall props. String -> props -> [Component] -> Component
 
-  foreign import rawText
-    "function rawText(text) {\
-    \  return text;\
-    \}" :: String -> Component
+  foreign import rawText """
+    function rawText(text) {
+      return text;
+    }""" :: String -> Component
 
   a               = dom "a"
   abbr            = dom "abbr"

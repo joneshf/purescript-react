@@ -4,11 +4,11 @@
 
 ### Values
 
+    cloneWithProps :: forall props. Fn2 Component props Component
+
     coerceThis :: forall fields fields'. This fields -> This fields'
 
     createClass :: forall s fields state props eff mixins statics. Spec fields props state s eff mixins statics -> ComponentClass {  | props } {  | state }
-
-    document :: { body :: Element, getElementById :: String -> Element }
 
     eventHandler :: forall eff fields event a. This fields -> (This fields -> ReactSyntheticEvent event -> Eff (dom :: DOM, react :: React | eff) a) -> ReactSyntheticEvent event -> Unit
 
